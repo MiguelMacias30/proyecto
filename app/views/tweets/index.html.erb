@@ -66,7 +66,12 @@
    <% else %>
         <%= link_to 'Show', tweet, class:'dropdown-item'%>
     <% end %>
-      
+       <% pre_like = tweet.likes.find { |like| like.user_id == current_user.id} %>
+        <% if pre_like %>
+             <span><%= tweet.likes.count %> <%= (tweet.likes.count) == 1 ? 'Like' : 'Likes'%></span><%= button_to 'Unlike', tweet_like_path(tweet, pre_like), method: :delete %>
+        <% else %>
+            <span><%= tweet.likes.count %> <%= (tweet.likes.count) == 1 ? 'Like' : 'Likes'%></span><%= button_to 'Like', tweet_likes_path(tweet), method: :post %>
+        <% end %>
   </div>
 </div>
   
@@ -74,6 +79,8 @@
     <img src="<%= tweet.user.image%>" width="50px" heigth="50px" alt="">
      <%= tweet.user.name %> <br>
     <span class="content"><%= tweet.content %></span>
+     <span class="content "><%=link_to  time_ago_in_words(tweet.created_at), tweet %></span>
+     
   </div>
   
 </div>
